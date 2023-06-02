@@ -1,0 +1,35 @@
+field_separator: "\t"
+seq_separator: " " #指定数据集中token_seq或者float_seq域里的分隔符
+USER_ID_FIELD: user_id
+ITEM_ID_FIELD: item_id
+TIME_FIELD: timestamp
+
+#指定从什么文件里读什么列，这里就是从inter里面读取user_id, item_id,,timestamp
+load_col:
+    inter: [user_id, item_id, timestamp]
+
+NEG_PREFIX: neg_
+LABEL_FIELD: label
+ITEM_LIST_LENGTH_FIELD: item_length
+LIST_SUFFIX: _list
+MAX_ITEM_LIST_LENGTH: 50
+POSITION_FIELD: position_id
+
+#train_batch_size: 256
+filter_inter_by_user_or_item: True
+user_inter_num_interval: "[0,inf)"
+item_inter_num_interval: "[0,inf)"
+hidden_size: 128
+neg_sampling:
+  uniform: 1
+
+# evalution settings
+eval_setting: TO_LS,full #时间排序+留一法切分
+metrics: ["Recall", "MRR", "NDCG"]
+valid_metric: MRR@10 #选取哪个评测标准作为作为提前停止训练的标准
+eval_batch_size: 4096 #评测的batch_size
+topk: [1, 5, 10, 20] #评测标准使用topk，设置成10评测标准就是["Recall@10", "MRR@10", "NDCG@10"]
+
+log_root: "./log/"
+data_path: "./dataset/"
+
